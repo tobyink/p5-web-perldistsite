@@ -1,5 +1,7 @@
 package Web::PerlDistSite::Compile;
 
+our $VERSION = '0.001000';
+
 use Exporter::Almighty -setup => {
 	tag => {
 		default => [ qw/

@@ -1,5 +1,7 @@
 package Web::PerlDistSite::Common;
 
+our $VERSION = '0.001000';
+
 use v5.26;
 use Type::Params qw( -sigs );
 use YAML::PP;

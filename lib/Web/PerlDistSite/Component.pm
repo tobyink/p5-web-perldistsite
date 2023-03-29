@@ -1,5 +1,7 @@
 package Web::PerlDistSite::Component;
 
+our $VERSION = '0.001000';
+
 use Moo::Role;
 use Web::PerlDistSite::Common -lexical, -all;
 

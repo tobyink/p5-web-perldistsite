@@ -1,5 +1,7 @@
 package Web::PerlDistSite::Pod2HTML;
 
+our $VERSION = '0.001000';
+
 use Moo::Role;
 use Web::PerlDistSite::Common -lexical, -all;
 use TOBYINK::Pod::HTML;

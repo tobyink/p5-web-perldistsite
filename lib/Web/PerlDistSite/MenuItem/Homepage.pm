@@ -1,5 +1,7 @@
 package Web::PerlDistSite::MenuItem::Homepage;
 
+our $VERSION = '0.001000';
+
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
 use Colouring::In;

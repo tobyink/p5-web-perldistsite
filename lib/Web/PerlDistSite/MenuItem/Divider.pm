@@ -1,5 +1,7 @@
 package Web::PerlDistSite::MenuItem::Divider;
 
+our $VERSION = '0.001000';
+
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
 
