@@ -3,7 +3,25 @@
 @prefix : <http://ontologi.es/doap-deps#>.
 
 `Web-PerlDistSite`
-	:runtime-requirement    [ :on "perl 5.010001"^^:CpanId ];
+	:runtime-requirement    [ :on "perl 5.026000"^^:CpanId ];
+	:runtime-requirement    [ :on "Colouring::In"^^:CpanId ];
+	:runtime-requirement    [ :on "Data::Section"^^:CpanId ];
+	:runtime-requirement    [ :on "Exporter::Almighty"^^:CpanId ];
+	:runtime-requirement    [ :on "HTML::HTML5::Entities"^^:CpanId ];
+	:runtime-requirement    [ :on "HTML::HTML5::Parser"^^:CpanId ];
+	:runtime-requirement    [ :on "HTML::HTML5::Sanity"^^:CpanId ];
+	:runtime-requirement    [ :on "HTML::HTML5::Writer"^^:CpanId ];
+	:runtime-requirement    [ :on "Module::Runtime"^^:CpanId ];
+	:runtime-requirement    [ :on "Moo"^^:CpanId ];
+	:runtime-requirement    [ :on "Moo::Role"^^:CpanId ];
+	:runtime-requirement    [ :on "Path::Tiny"^^:CpanId ];
+	:runtime-requirement    [ :on "Pod::Find"^^:CpanId ];
+	:runtime-requirement    [ :on "Text::Markdown"^^:CpanId ];
+	:runtime-requirement    [ :on "TOBYINK::Pod::HTML"^^:CpanId ];
+	:runtime-requirement    [ :on "Type::Params"^^:CpanId ];
+	:runtime-requirement    [ :on "Types::Common"^^:CpanId ];
+	:runtime-requirement    [ :on "XML::LibXML::PrettyPrint"^^:CpanId ];
+	:runtime-requirement    [ :on "YAML::PP"^^:CpanId ];
 	:test-requirement       [ :on "Test2::V0"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Tools::Spec"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Require::AuthorTesting"^^:CpanId ];
