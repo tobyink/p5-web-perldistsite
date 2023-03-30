@@ -1,6 +1,6 @@
 package Web::PerlDistSite::Compile;
 
-our $VERSION = '0.001002';
+our $VERSION = '0.001003';
 
 use Exporter::Almighty -setup => {
 	tag => {
