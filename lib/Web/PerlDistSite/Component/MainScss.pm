@@ -73,4 +73,4 @@ __DATA__
 @import "../node_modules/bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
-@import "custom";
+@import "layout";

@@ -1,4 +1,4 @@
-package Web::PerlDistSite::Component::CustomScss;
+package Web::PerlDistSite::Component::LayoutScss;
 
 our $VERSION = '0.001001';
 
@@ -8,7 +8,7 @@ use Web::PerlDistSite::Common -lexical, -all;
 with 'Web::PerlDistSite::Component';
 
 sub filename ( $self ) {
-	return '_build/custom.scss';
+	return '_build/layout.scss';
 }
 
 sub raw_content ( $self ) {
