@@ -131,6 +131,11 @@ has github => (
 	isa      => Str,
 );
 
+has sponsor => (
+	is       => 'ro',
+	isa      => HashRef,
+);
+
 has theme => (
 	is      => 'ro',
 	isa     => HashRef->of( Str ),
@@ -187,6 +192,20 @@ sub footer ( $self ) {
 				'<p><img alt="GitHub Repo stars"
 				src="https://img.shields.io/github/stars/%s?style=social"></p>',
 				$path,
+			);
+		}
+	}
+	
+	if ( $self->sponsor ) {
+		push @sections, sprintf(
+			'<h2>Sponsoring</h2>
+			<p>%s</p>',
+			esc_html( $self->sponsor->{html} ),
+		);
+		if ( $self->sponsor->{href} ) {
+			$sections[-1] .= sprintf(
+				'<p><a class="btn btn-light" href="%s"><span class="text-dark">Sponsor</span></a></p>',
+				esc_html( $self->sponsor->{href} ),
 			);
 		}
 	}
@@ -294,6 +313,20 @@ __DATA__
 		<script src="{{ $root }}assets/scripts/bootstrap.bundle.min.js"></script>
 		<script src="//kit.fontawesome.com/6d700b1a29.js" crossorigin="anonymous"></script>
 		<script src="//unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
-		<script>hljs.highlightAll();</script>
+		<script>
+		window.addEventListener( 'scroll', function () {
+			const scroll = document.documentElement.scrollTop;
+			if ( scroll > 75 ) {
+				document.body.classList.add( 'is-scrolled' );
+				document.body.classList.remove( 'at-top' );
+			}
+			else if ( scroll < 25 ) {
+				document.body.classList.remove( 'is-scrolled' );
+				document.body.classList.add( 'at-top' );
+			}
+		} );
+		document.body.classList.add( 'at-top' );
+		hljs.highlightAll();
+		</script>
 	</body>
 </html>

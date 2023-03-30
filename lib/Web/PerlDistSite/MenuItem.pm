@@ -130,7 +130,7 @@ sub _compile_dom ( $self, $dom ) {
 		unshift $pp->{element}{compact}->@*, 'a';
 		$pp;
 	};
-	state $w = HTML::HTML5::Writer->new( markup => 'html', polyglot => true );
+	state $w = HTML::HTML5::Writer->new( markup => 'xhtml', polyglot => true );
 	my $sane = fix_document( $dom );
 	$p->pretty_print( $sane );
 	return $w->document( $sane );

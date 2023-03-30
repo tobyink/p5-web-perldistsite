@@ -35,13 +35,32 @@ sub page_title ( $self ) {
 sub extra_top ( $self ) {
 	my @extra;
 	if ( my $animation = $self->project->homepage->{animation} ) {
-		my $method = "ani_$animation";
+		my $method = "compile_animation_$animation";
 		push @extra, $self->$method;
+	}
+	elsif ( $self->project->homepage->{banner} ) {
+		push @extra, $self->compile_banner();
 	}
 	return @extra;
 }
 
-sub ani_waves1 ( $self ) {
+sub compile_banner ( $self ) {
+	my $template = $self->section_data( 'banner' );
+	my $code = $self->_fill_in(
+		$$template,
+		{
+			title     => $self->project->name,
+			abstract  => $self->project->abstract_html,
+			banner    => $self->project->homepage->{banner},
+			fixation  => $self->project->homepage->{banner_fixation}   || 'fixed',
+			pos_x     => $self->project->homepage->{banner_position_x} || 'center',
+			pos_y     => $self->project->homepage->{banner_position_y} || 'center',
+		}
+	);
+	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
+}
+
+sub compile_animation_waves1 ( $self ) {
 	my $colour   = Colouring::In->new( $self->project->theme->{'primary'} );
 	my $template = $self->section_data( 'waves1' );
 	my $code = $self->_fill_in(
@@ -56,7 +75,7 @@ sub ani_waves1 ( $self ) {
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
 }
 
-sub ani_waves2 ( $self ) {
+sub compile_animation_waves2 ( $self ) {
 	my $colour   = Colouring::In->new( $self->project->theme->{'primary'} );
 	my $template = $self->section_data( 'waves2' );
 	my $code = $self->_fill_in(
@@ -74,7 +93,7 @@ sub ani_waves2 ( $self ) {
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
 }
 
-sub ani_swirl1 ( $self ) {
+sub compile_animation_swirl1 ( $self ) {
 	my $colour1  = Colouring::In->new( $self->project->theme->{'primary'} );
 	my $colour2  = Colouring::In->new( $self->project->theme->{'dark'} );
 	my $template = $self->section_data( 'swirl1' );
@@ -91,7 +110,7 @@ sub ani_swirl1 ( $self ) {
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
 }
 
-sub ani_attract1 ( $self ) {
+sub compile_animation_attract1 ( $self ) {
 	my $colour1  = Colouring::In->new( $self->project->theme->{'dark'} );
 	my $template = $self->section_data( 'attract1' );
 	my $code = $self->_fill_in(
@@ -116,40 +135,46 @@ sub _fill_in ( $self, $template, $data ) {
 
 __DATA__
 
-__[ waves1 ]__
+__[ banner ]__
 
-<div class="bg-primary" style="position:relative">
-	<div style="position:absolute;top:20vh;width:100%">
-		<div class="container text-white text-center">
-			<h1 class="display-1 fw-bold">{{ $title }}</h1>
-			<h2 class="display-6 fw-bold pt-4">{{ $abstract }}</h2>
-		</div>
-	</div>
-	<div style="position:absolute;bottom:10vh;width:100%">
-		<div class="container text-white text-center">
-			<big style="font-size:2rem"><a href="#down" style="text-decoration:none" class="bounce-down text-white"><i class="fa-solid fa-circle-down"></i></a></big>
-		</div>
-	</div>
+<div class="homepage-hero homepage-hero-banner">
 	<style>
-	#waves1 {
-		width: 100%;
-		height: 95vh;
-		height: calc(100vh - 56px);
-	}
-	.bounce-down {
-		position: absolute;
-		animation: bounce 1s infinite alternate;
-	}
-	@keyframes bounce {
-		to { transform: scale(1.2); }
+	.homepage-hero-banner {
+		background: var(--bs-dark) url({{ $banner }}) no-repeat {{ $fixation }} {{ $pos_y }} {{ $pos_x }};
+		background-size: cover;
 	}
 	</style>
-	<svg id="waves1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" preserveAspectRatio="none">
-		<defs />
-		<linearGradient id="SVGID_1_" x1="2880" x2="2880" y1="909.66" y2="170.6" gradientUnits="userSpaceOnUse">
-			<stop offset="0" stop-color="{{ $colour1 }}" />
-			<stop offset="1" stop-color="{{ $colour2 }}" />
-		</linearGradient>
+	<div class="homepage-hero-text">
+		<div>
+			<h1>{{ $title }}</h1>
+			<h2>{{ $abstract }}</h2>
+		</div>
+	</div>
+	<div class="homepage-hero-button">
+		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+	</div>
+</div>
+<div id="down"></div>
+
+__[ waves1 ]__
+
+<div class="homepage-hero">
+	<div class="homepage-hero-text">
+		<div>
+			<h1>{{ $title }}</h1>
+			<h2>{{ $abstract }}</h2>
+		</div>
+	</div>
+	<div class="homepage-hero-button">
+		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+	</div>
+	<svg class="homepage-hero-graphic" id="waves1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" preserveAspectRatio="none">
+		<defs>
+			<linearGradient id="SVGID_1_" x1="2880" x2="2880" y1="909.66" y2="170.6" gradientUnits="userSpaceOnUse">
+				<stop offset="0" stop-color="{{ $colour1 }}" />
+				<stop offset="1" stop-color="{{ $colour2 }}" />
+			</linearGradient>
+		</defs>
 		<g>
 			<g class="g">
 				<path class="path" fill="url(#SVGID_1_)" d="m1920 538.5 8.6-.4h8.6l8.6.3 4.3.3 4.3.4c11.4 1.1 22.8 2.9 34 5.4 22.5 5 44.3 12.4 65.6 21a730.8 730.8 0 0 1 62.3 28.7c20.3 10.3 40.3 21 60.2 31.7l29.8 15.9c9.9 5.2 19.9 10.3 29.9 15.3a727 727 0 0 0 60.7 27.2 360.6 360.6 0 0 0 62.6 18.3c10.6 2 21.2 3.4 31.8 4l8 .3 7.7-.1c2.6-.2 5.1-.2 7.7-.5l3.9-.4 1.9-.2 1.9-.3a177 177 0 0 0 30.8-7.4c10.2-3.3 20.2-7.5 30.1-12.1a448 448 0 0 0 57.5-33.2c37.2-24.9 72.1-53.7 106.7-82.8 34.6-29.1 68.7-59.1 105.7-85.8 9.3-6.6 18.7-13.1 28.5-19.1 9.8-6.1 19.8-11.7 30.3-16.7s21.3-9.4 32.7-12.6c11.4-3.2 23.2-5.3 35.3-5.7 12.1-.3 24.2 1.1 35.8 3.7 11.7 2.6 23 6.4 33.8 11 21.8 9.1 42 20.9 61.2 33.7 9.6 6.4 19 13.1 28.2 20a934 934 0 0 1 27.1 21.1c17.8 14.3 35.1 29 52.4 43.6 34.6 29.2 68.9 58.3 104.9 83.9 9 6.4 18.2 12.5 27.4 18.3 9.3 5.8 18.7 11.2 28.2 16.1 19.1 9.7 39 17.4 59 20.9l3.8.6 3.8.5 7.5.7 3.8.1 3.8.1h5.9l2-.1a243.7 243.7 0 0 0 63-10.6 388 388 0 0 0 31-10.3 706.6 706.6 0 0 0 60.9-26.6c20.1-9.8 40-20.3 60-30.8 20-10.6 40-21.2 60.4-31.4a875.4 875.4 0 0 1 62.3-28.5 430.2 430.2 0 0 1 65.5-20.9c11.2-2.5 22.6-4.3 34-5.5l4.3-.4 4.3-.3 8.6-.4 4.3-.1h4.3c2.9 0 5.7.2 8.6.3v3c-22.5 1.4-44.5 6-65.7 12.8a449 449 0 0 0-61.8 25.5c-40.1 19.7-78.4 43.3-117.4 66.4a1413.4 1413.4 0 0 1-59.3 33.9 675.1 675.1 0 0 1-62.4 29.9c-21.5 8.8-44 16.3-67.5 20.8a250.2 250.2 0 0 1-35.8 4.5l-2.3.1-2.3.1-4.6.1h-4.7l-4.7-.1-9.4-.7-4.6-.6-4.6-.7c-12.3-2-24.2-5.3-35.6-9.4-11.4-4.1-22.4-9-32.9-14.5a454.2 454.2 0 0 1-59.3-37.5c-37.3-27.5-71.2-58-105.1-88-16.9-15-33.8-30-50.8-44.5a845.7 845.7 0 0 0-52.2-41.8c-8.9-6.5-18-12.8-27.3-18.7a297 297 0 0 0-28.5-16.1c-9.7-4.7-19.7-8.8-30-11.8a128 128 0 0 0-31.2-5.2c-21.1-.5-42.6 4.8-62.9 13.4-20.3 8.6-39.7 20-58.2 32.6a590.9 590.9 0 0 0-27.3 19.7l-13.3 10.4-13.1 10.6a1788.2 1788.2 0 0 0-51.4 44.2c-33.9 29.9-67.2 60.8-103.3 89-18.1 14-37 27.3-57.5 38.7a267 267 0 0 1-31.9 15.2 191.4 191.4 0 0 1-34.6 10.1l-2.2.4-2.3.3-4.5.7-9.2 1-4.6.2c-1.5 0-3.1.2-4.6.1l-9-.1c-12-.3-23.9-1.6-35.5-3.7a340 340 0 0 1-67.4-19.9 674.5 674.5 0 0 1-62.6-29.3c-10.1-5.3-20.1-10.9-30-16.5l-14.8-8.5-14.7-8.6c-39.1-22.9-77.5-46.3-117.6-66.1-20-9.8-40.6-18.7-61.8-25.5a279.8 279.8 0 0 0-65.6-13.2v-2.9z" />
@@ -247,35 +272,23 @@ __[ waves1 ]__
 
 __[ waves2 ]__
 
-<div class="bg-primary" style="position:relative">
-	<div style="position:absolute;top:20vh;width:100%">
-		<div class="container text-white text-center">
-			<h1 class="display-1 fw-bold">{{ $title }}</h1>
-			<h2 class="display-6 fw-bold pt-4">{{ $abstract }}</h2>
-		</div>
-	</div>
-	<div style="position:absolute;bottom:10vh;width:100%">
-		<div class="container text-white text-center">
-			<big style="font-size:2rem"><a href="#down" style="text-decoration:none" class="bounce-down text-white"><i class="fa-solid fa-circle-down"></i></a></big>
-		</div>
-	</div>
+<div class="homepage-hero">
 	<style>
 	#waves2 {
-		width: 100%;
-		height: 95vh;
-		height: calc(100vh - 56px);
 		background-color: {{ $colour4 }};
 		background-image: linear-gradient(to bottom, {{ $colour5 }}, {{ $colour4 }});
 	}
-	.bounce-down {
-		position: absolute;
-		animation: bounce 1s infinite alternate;
-	}
-	@keyframes bounce {
-		to { transform: scale(1.2); }
-	}
 	</style>
-	<svg id="waves2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+	<div class="homepage-hero-text">
+		<div>
+			<h1>{{ $title }}</h1>
+			<h2>{{ $abstract }}</h2>
+		</div>
+	</div>
+	<div class="homepage-hero-button">
+		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+	</div>
+	<svg class="homepage-hero-graphic" id="waves2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
 		<defs>
 			<linearGradient id="bg">
 				<stop offset="0%" style="stop-color:{{ $colour1 }}"></stop>
@@ -329,34 +342,22 @@ __[ waves2 ]__
 
 __[ swirl1 ]__
 
-<div class="bg-dark" style="position:relative">
-	<div style="position:absolute;top:20vh;width:100%">
-		<div class="container text-white text-center">
-			<h1 class="display-1 fw-bold">{{ $title }}</h1>
-			<h2 class="display-6 fw-bold pt-4">{{ $abstract }}</h2>
-		</div>
-	</div>
-	<div style="position:absolute;bottom:10vh;width:100%">
-		<div class="container text-white text-center">
-			<big style="font-size:2rem"><a href="#down" style="text-decoration:none" class="bounce-down text-white"><i class="fa-solid fa-circle-down"></i></a></big>
-		</div>
-	</div>
+<div class="homepage-hero homepage-hero-dark">
 	<style>
 	#swirl1 {
-		width: 100%;
-		height: 95vh;
-		height: calc(100vh - 56px);
 		visibility: hidden;
 	}
-	.bounce-down {
-		position: absolute;
-		animation: bounce 1s infinite alternate;
-	}
-	@keyframes bounce {
-		to { transform: scale(1.2); }
-	}
 	</style>
-	<svg id="swirl1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+	<div class="homepage-hero-text">
+		<div>
+			<h1>{{ $title }}</h1>
+			<h2>{{ $abstract }}</h2>
+		</div>
+	</div>
+	<div class="homepage-hero-button">
+		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+	</div>
+	<svg class="homepage-hero-graphic" id="swirl1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
 		<defs>
 			<linearGradient class="grad" id="ringGrad_2" data-name="New Gradient Swatch 2" x1="128.85" y1="300" x2="671.15" y2="300" gradientUnits="userSpaceOnUse">
 				<stop offset="0" stop-color="{{ $colour1 }}"/>
@@ -488,37 +489,22 @@ __[ swirl1 ]__
 
 __[ attract1 ]__
 
-<div class="bg-dark" style="position:relative">
-	<div style="position:absolute;top:20vh;width:100%;pointer-events:none;">
-		<div class="container text-white text-center">
-			<h1 class="display-1 fw-bold">{{ $title }}</h1>
-			<h2 class="display-6 fw-bold pt-4">{{ $abstract }}</h2>
-		</div>
-	</div>
-	<div style="position:absolute;bottom:10vh;left:40%;width:20%">
-		<div class="container text-white text-center">
-			<big style="font-size:2rem"><a href="#down" style="text-decoration:none" class="bounce-down text-white"><i class="fa-solid fa-circle-down"></i></a></big>
-		</div>
-	</div>
+<div class="homepage-hero homepage-hero-dark">
 	<style>
 	header {
 		background-color: {{ $colour1 }} !important;
 	}
-	#attract1 {
-		width: 100%;
-		height: 95vh;
-		height: calc(100vh - 56px);
-		background: {{ $colour1 }};
-	}
-	.bounce-down {
-		position: absolute;
-		animation: bounce 1s infinite alternate;
-	}
-	@keyframes bounce {
-		to { transform: scale(1.2); }
-	}
 	</style>
-	<div id="attract1"></div>
+	<div class="homepage-hero-text" style="pointer-events:none">
+		<div>
+			<h1>{{ $title }}</h1>
+			<h2>{{ $abstract }}</h2>
+		</div>
+	</div>
+	<div class="homepage-hero-button">
+		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+	</div>
+	<div class="homepage-hero-graphic" id="attract1"></div>
 	<script>
 	const { random, atan2, cos, sin, hypot } = Math;
 	const max = 200;

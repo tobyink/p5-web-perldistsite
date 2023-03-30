@@ -32,6 +32,13 @@ __DATA__
 @import "../node_modules/bootstrap/scss/variables";
 
 // 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/utilities";
+
 $sizes: (
 	25: 25%,
 	50: 50%,
@@ -53,12 +60,6 @@ $sizes: (
 		}
 	}
 }
-
-// 5. Include remainder of required parts
-@import "../node_modules/bootstrap/scss/maps";
-@import "../node_modules/bootstrap/scss/mixins";
-@import "../node_modules/bootstrap/scss/root";
-@import "../node_modules/bootstrap/scss/utilities";
 
 // 6. Optionally include any other parts as needed
 @import "../node_modules/bootstrap/scss/reboot";
