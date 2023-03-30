@@ -13,6 +13,9 @@ sub filename ( $self ) {
 
 sub raw_content ( $self ) {
 	state $content = do { local $/ = <DATA> };
+	if ( $self->project->root->child( 'custom.scss' )->is_file ) {
+		return $content . qq{\n\@import "../custom";\n\n}
+	}
 	return $content;
 }
 
@@ -29,6 +32,27 @@ __DATA__
 @import "../node_modules/bootstrap/scss/variables";
 
 // 4. Include any default map overrides here
+$sizes: (
+	25: 25%,
+	50: 50%,
+	75: 75%,
+	100: 100%,
+	60px: 60px,
+	80px: 80px,
+	100px: 100px,
+	auto: auto
+);
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+		@each $prop, $abbrev in (width: w, height: h) {
+			@each $size, $length in $sizes {
+				.#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length !important; }
+			}
+		}
+	}
+}
 
 // 5. Include remainder of required parts
 @import "../node_modules/bootstrap/scss/maps";
