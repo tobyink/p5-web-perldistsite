@@ -20,6 +20,7 @@
 	:runtime-requirement    [ :on "TOBYINK::Pod::HTML"^^:CpanId ];
 	:runtime-requirement    [ :on "Type::Params"^^:CpanId ];
 	:runtime-requirement    [ :on "Types::Common"^^:CpanId ];
+	:runtime-requirement    [ :on "URI::Escape"^^:CpanId ];
 	:runtime-requirement    [ :on "XML::LibXML::PrettyPrint"^^:CpanId ];
 	:runtime-requirement    [ :on "YAML::PP"^^:CpanId ];
 	:test-requirement       [ :on "Test2::V0"^^:CpanId ];

@@ -56,7 +56,6 @@ sub compile_page ( $self ) {
 }
 
 sub write_page ( $self ) {
-	warn "WRITE FILE: " . $self->system_path . "\n";
 	$self->system_path->parent->mkpath;
 	$self->system_path->spew_if_changed( $self->compile_page );
 }
