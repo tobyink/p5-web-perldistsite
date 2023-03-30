@@ -6,7 +6,7 @@ use Exporter::Almighty -setup => {
 	tag => {
 		default => [ qw/
 			write_main_scss
-			write_custom_scss
+			write_layout_scss
 			write_variables_scss
 			write_pages
 			project
@@ -26,9 +26,9 @@ sub write_main_scss () {
 	Web::PerlDistSite::Component::MainScss->new( project => project )->write;
 }
 
-sub write_custom_scss () {
-	require Web::PerlDistSite::Component::CustomScss;
-	Web::PerlDistSite::Component::CustomScss->new( project => project )->write;
+sub write_layout_scss () {
+	require Web::PerlDistSite::Component::LayoutScss;
+	Web::PerlDistSite::Component::LayoutScss->new( project => project )->write;
 }
 
 sub write_variables_scss () {
