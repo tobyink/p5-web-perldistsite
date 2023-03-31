@@ -309,17 +309,19 @@ __DATA__
 		<link href="{{ $root }}assets/styles/main.css?v={{ $css_timestamp }}" rel="stylesheet">
 		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/{{ $codestyle }}.min.css">
 	</head>
-	<body>
+	<body id="top">
 		<header></header>
 		<main></main>
 		<div style="height: 150px; overflow: hidden;"><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C138.82,121.67 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgba(var(--bs-dark-rgb), 1);"></path></svg></div>
-		<footer></footer>
+		<footer id="bottom"></footer>
+		<div id="return-to-top"><a href="#top"><i class="fa-solid fa-circle-up"></i></div>
 		<script src="{{ $root }}assets/scripts/bootstrap.bundle.min.js"></script>
 		<script src="//kit.fontawesome.com/6d700b1a29.js" crossorigin="anonymous"></script>
 		<script src="//unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
 		<script>
 		const classy_scroll = function () {
 			const scroll = document.documentElement.scrollTop;
+			const avail  = window.screen.availHeight;
 			if ( scroll > 75 ) {
 				document.body.classList.add( 'is-scrolled' );
 				document.body.classList.remove( 'at-top' );
@@ -327,6 +329,12 @@ __DATA__
 			else if ( scroll < 25 ) {
 				document.body.classList.remove( 'is-scrolled' );
 				document.body.classList.add( 'at-top' );
+			}
+			if ( scroll > avail ) {
+				document.body.classList.add( 'is-scrolled-deeply' );
+			}
+			else if ( scroll < avail ) {
+				document.body.classList.remove( 'is-scrolled-deeply' );
 			}
 		};
 		classy_scroll();

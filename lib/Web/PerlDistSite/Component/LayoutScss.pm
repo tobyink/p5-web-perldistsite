@@ -33,16 +33,6 @@ body {
 	}
 }
 
-html, body {
-	scroll-snap-type: y proximity;
-}
-.has-sections > section {
-	scroll-snap-align: start;
-}
-.homepage-hero, footer {
-	scroll-snap-align: end;
-}
-
 header {
 	@extend .sticky-top;
 	@extend .bg-primary;
@@ -67,6 +57,11 @@ header {
 			background: darken($secondary, 5%);
 		}
 	}
+}
+
+#main {
+	height: 1px;
+	width: 1px;
 }
 
 .homepage-hero {
@@ -100,33 +95,37 @@ header {
 		}
 	}
 	
-	.homepage-hero-button {
-		@extend .text-white;
-		@extend .text-center;
-		position: absolute;
-		bottom: 18vh;
-		width: 100%;
-		font-size: 2rem;
-		
-		a:link, a:visited {
-			@extend .text-white;
-			text-decoration: underline;
-			position: relative;
-			i {
-				position: absolute;
-				top: 0;
-				left: -0.67rem;
-				animation: bounce 1s infinite alternate;
-			}
-		}
-	}
-	
 	.homepage-hero-graphic {
 		width: 100%;
 		height: 95vh;
 		height: calc(100vh - 56px);
 		height: calc(100dvh - 56px);
 	}
+}
+
+.homepage-hero-button {
+	@extend .text-white;
+	@extend .text-center;
+	position: absolute;
+	bottom: 18vh;
+	width: 100%;
+	font-size: 2rem;
+	
+	a:link, a:visited {
+		@extend .text-white;
+		text-decoration: underline;
+		position: relative;
+		i {
+			position: absolute;
+			top: 0;
+			left: -0.67rem;
+			animation: bounce 1.2s infinite alternate;
+		}
+	}
+}
+
+@keyframes bounce {
+	to { transform: scale(1.2); }
 }
 
 .homepage-hero-banner {
@@ -137,15 +136,6 @@ header {
 		text-shadow: 0px 0px 6px $dark;
 		opacity: 0.9;
 	}
-}
-
-@keyframes bounce {
-	to { transform: scale(1.2); }
-}
-
-div#down {
-	height: 1px;
-	width: 1px;
 }
 
 body.page main {
@@ -185,4 +175,38 @@ footer {
 	a:link, a:visited {
 		@extend .text-light;
 	}
+}
+
+#return-to-top {
+	@extend .text-secondary;
+	@extend .text-center;
+	position: fixed;
+	bottom: 2rem;
+	right: 3rem;
+	font-size: 2rem;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 1s ease-in-out;
+	
+	a:link, a:visited {
+		@extend .text-secondary;
+		opacity: 0.75;
+		transition: opacity 0.3s ease-in-out;
+		text-decoration: underline;
+		position: relative;
+		i {
+			position: absolute;
+			top: 0;
+			left: -0.67rem;
+			animation: bounce 1.2s infinite alternate;
+		}
+	}
+	a:hover {
+		opacity: 100%;
+	}
+}
+
+body.is-scrolled-deeply #return-to-top {
+	opacity: 1;
+	pointer-events: auto;
 }

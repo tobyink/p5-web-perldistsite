@@ -151,10 +151,10 @@ __[ banner ]__
 		</div>
 	</div>
 	<div class="homepage-hero-button">
-		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+		<a href="#main"><i class="fa-solid fa-circle-down"></i></a>
 	</div>
 </div>
-<div id="down"></div>
+<a id="main" name="main"></a>
 
 __[ waves1 ]__
 
@@ -166,7 +166,7 @@ __[ waves1 ]__
 		</div>
 	</div>
 	<div class="homepage-hero-button">
-		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+		<a href="#main"><i class="fa-solid fa-circle-down"></i></a>
 	</div>
 	<svg class="homepage-hero-graphic" id="waves1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" preserveAspectRatio="none">
 		<defs>
@@ -268,7 +268,7 @@ __[ waves1 ]__
 	gsap.to("#waves1", { opacity: 1, duration: 1 });
 	</script>
 </div>
-<div id="down"></div>
+<a id="main" name="main"></a>
 
 __[ waves2 ]__
 
@@ -286,7 +286,7 @@ __[ waves2 ]__
 		</div>
 	</div>
 	<div class="homepage-hero-button">
-		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+		<a href="#main"><i class="fa-solid fa-circle-down"></i></a>
 	</div>
 	<svg class="homepage-hero-graphic" id="waves2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
 		<defs>
@@ -338,7 +338,7 @@ __[ waves2 ]__
 		</g>
 	</svg>
 </div>
-<div id="down"></div>
+<a id="main" name="main"></a>
 
 __[ swirl1 ]__
 
@@ -355,7 +355,7 @@ __[ swirl1 ]__
 		</div>
 	</div>
 	<div class="homepage-hero-button">
-		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+		<a href="#main"><i class="fa-solid fa-circle-down"></i></a>
 	</div>
 	<svg class="homepage-hero-graphic" id="swirl1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
 		<defs>
@@ -485,7 +485,7 @@ __[ swirl1 ]__
 	gsap.globalTimeline.timeScale(2);
 	</script>
 </div>
-<div id="down"></div>
+<a id="main" name="main"></a>
 
 __[ attract1 ]__
 
@@ -502,7 +502,7 @@ __[ attract1 ]__
 		</div>
 	</div>
 	<div class="homepage-hero-button">
-		<a href="#down"><i class="fa-solid fa-circle-down"></i></a>
+		<a href="#main"><i class="fa-solid fa-circle-down"></i></a>
 	</div>
 	<div class="homepage-hero-graphic" id="attract1"></div>
 	<script>
@@ -615,4 +615,4 @@ __[ attract1 ]__
 	setup();
 	</script>
 </div>
-<div id="down"></div>
+<a id="main" name="main"></a>
