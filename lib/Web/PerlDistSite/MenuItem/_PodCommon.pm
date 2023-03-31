@@ -1,6 +1,6 @@
 package Web::PerlDistSite::MenuItem::_PodCommon;
 
-our $VERSION = '0.001005';
+our $VERSION = '0.001006';
 
 use Moo::Role;
 use Web::PerlDistSite::Common -lexical, -all;
