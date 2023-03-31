@@ -13,38 +13,265 @@ Web::PerlDistSite - generate fairly flashy websites for CPAN distributions
 
 Basically a highly specialized static site generator.
 
+=head2 Prerequisites
+
+You will need B<cpanm>.
+
+You will need B<nodejs> with B<npm>.
+
+You will need B<make>.
+
+=head2 Setup
+
+Create a directory and put this F<Makefile> in it:
+
+  .PHONY: all
+  all : styles scripts images pages
+  
+  .PHONY: clean
+  clean :
+    rm -fr _build docs
+  
+  .PHONY: install
+  install :
+    npm install
+    cpanm Web::PerlDistSite
+  
+  .PHONY: images
+  images :
+    mkdir -p docs/assets/
+    cp -r images docs/assets/
+  
+  .PHONY: styles
+  styles : docs/assets/styles/main.css
+  
+  .PHONY: scripts
+  scripts : docs/assets/scripts/bootstrap.bundle.min.js docs/assets/scripts/bootstrap.bundle.min.js.map
+  
+  .PHONY: pages
+  pages :
+    mkdir -p docs
+    perl -Ilib -MWeb::PerlDistSite::Compile -e write_pages
+  
+  _build/main.scss :
+    perl -Ilib -MWeb::PerlDistSite::Compile -e write_main_scss
+  
+  _build/layout.scss :
+    perl -Ilib -MWeb::PerlDistSite::Compile -e write_layout_scss
+  
+  _build/variables.scss : config.yaml
+    perl -Ilib -MWeb::PerlDistSite::Compile -e write_variables_scss
+  
+  custom.scss :
+    touch -a custom.scss
+  
+  docs/assets/styles/main.css : _build/main.scss _build/variables.scss _build/layout.scss custom.scss
+    mkdir -p docs/assets/styles
+    node node_modules/sass/sass.js --style=compressed _build/main.scss:docs/assets/styles/main.css
+  
+  docs/assets/scripts/bootstrap.bundle.min.js :
+    mkdir -p docs/assets/scripts
+    cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js docs/assets/scripts/bootstrap.bundle.min.js
+  
+  docs/assets/scripts/bootstrap.bundle.min.js.map :
+    mkdir -p docs/assets/scripts
+    cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map docs/assets/scripts/bootstrap.bundle.min.js.map
+
+And this F<project.json>:
+
+  {
+    "dependencies": {
+      "@popperjs/core": "^2.11.7",
+      "bootstrap": "^5.2.3",
+      "sass": "^1.60.0"
+    }
+  }
+
+Now run C<< make install >> and the rest of the dependencies will be
+installed.
+
+=head2 Site Configuration
+
+Configuration should be via a file F<config.yaml>. This is a YAML file
+containing a hash with the following keys. Each key is optional, unless
+noted as required.
+
 =over
 
-=item 1.
+=item C<< theme >> I<< (required) >>
 
-Use L<https://github.com/exportertiny/exportertiny.github.io> as
-a starting point.
+A hashref of colour codes. You need at least "primary", "secondary", "light",
+and "dark". "info", "success", "warning", and "danger" are also allowed.
 
-=item 2.
+  theme:
+    light: "#e4e3e1"
+    dark: "#32201D"
+    primary: "#763722"
+    secondary: "#E4A042"
 
-Run C<< make install >>
+=item C<< name >> I<< (required) >>
 
-=item 3.
+The name of the project you're building a website for. This is assumed
+to be a CPAN distribution name, like "Exporter-Tiny" or "Foo-Bar-Baz".
 
-Edit C<< config.yaml >> to set your colour scheme, etc.
+=item C<< abstract >> I<< (required) >>
 
-=item 4.
+A short plain-text summary of the project.
 
-Edit C<< menu.yaml >> to edit your navbar.
+=item C<< abstract_html >>
 
-=item 5.
+A short HTML summary of the project.
 
-Edit pages in C<< _pages >>.
+=item C<< copyright >> I<< (required) >>
 
-=item 6.
+A short plain-text copyright statement for the website footers.
 
-Run C<< make clean >> and C<< make all >>.
+=item C<< github >>
 
-=item 7.
+Link to a github repo for the site. Expected to be of the form
+"https://github.com/username/reponame".
 
-Upload your site somewhere.
+=item C<< issues >>
+
+Link to an issue tracker.
+
+=item C<< sponsor >>
+
+Hashref containing project sponsorship info. The "html" key is required.
+The "href" key is optional.
+
+  sponsor:
+    html: "<strong>Please sponsor us!</strong> Blah blah blah."
+    href: https://paypal.example/foo-bar-baz
+
+=item C<< menu >>
+
+A list of files to include in the navbar. If this key is missing, will
+be loaded from F<menu.yaml> instead.
+
+=item C<< homepage >>
+
+Hashref of options for the homepage (index.html). May contain keys
+"animation", "banner", "banner_fixation", "banner_position_x", and
+"banner_position_y".
+
+The "animation" may be "waves1", "waves2", "swirl1", or "attract1".
+Each of these will create a pretty animation on the homepage. Some
+day I'll add support for more animations.
+
+If "animation" is not defined, then "banner" can be used to supply
+the URL of a static image to use instead of an animation.
+
+"banner_fixation" can be "scroll" or "fixed", and defaults to the latter.
+"banner_position_x" can be "left", "center", or "right". "banner_position_y"
+can be "top", "center", or "bottom". These each default to "center".
+
+In the future, more homepage options may be available.
+
+=item C<< dist_dir >>
+
+Directory for output. Defaults to a subdirectory called "docs".
+
+=item C<< root_url >>
+
+URL for the output. Can be an absolute URL, but something like "/"
+is probably okay. (That's the default.)
+
+=item C<< codestyle >>
+
+Name of a highlight.js theme, used for code syntax highlighting.
+Defaults to "github".
+
+=item C<< pod_filter >>
+
+A list of section names which will be filtered out of pages generated
+from pod files. Uses "|" as a separator. Defaults to:
+"NAME|BUGS|AUTHOR|THANKS|COPYRIGHT AND LICENCE|DISCLAIMER OF WARRANTIES".
+
+=item C<< pod_titlecase >>
+
+Boolean. Should ALL CAPS "=head1" headings from pod be converted to
+Title Case? Defaults to true.
+
+=item C<< pod_downgrade_headings >>
+
+Converts pod "=head1" to C<< <h2> >> tags in HTML, etc.
 
 =back
+
+=head2 Menu Configuration
+
+The menu can be configured under the C<menu> key of F<config.yaml>, or in
+F<menu.yaml>. This is a list of menu items. For example:
+
+  - name: installation
+    title: Installation
+    source: _pages/installation.md
+  - name: hints
+    title: Hints and Tips
+    source: _pages/hints.pod
+  - name: manual
+    title: Manual
+    children:
+      - name: Foo-Bar
+        pod: Foo::Bar
+      - name: Foo-Bar-Baz
+        pod: Foo::Bar::Baz
+
+The C<name> key is used for the output filename. ".html" is automatically
+appended.
+
+The C<title> key is the title of the document generated. It is used in the
+navbar and in the page's C<< C<title> >> element.
+
+Each entry needs a C<source> which is an input filename. The input may
+be pod or markdown. (At some future point, HTML input will also be supported.)
+
+If the C<pod> key is found, we'll find the pod via C<< @INC >>, like
+perldoc does. This will helpfully also default C<title> and C<name> for you!
+
+A C<children> key allows child pages to be listed. Only one level of nesting
+is supported in the navbar, but if further levels of nesting are used, these
+pages will still be built. (You'll just need to link to them manually somehow.)
+
+A list item like this can be used to add dividers:
+
+      - divider: true
+
+If the input is pod, you can also provide C<pod_filter>, C<pod_titlecase>,
+and C<pod_downgrade_headings> settings which override the global settings.
+
+If the input is markdown, you may use "----" (four hyphens) on a line by
+itself to divide the page into cute sections.
+
+=head2 Homepage
+
+You'll need a file called F<< _page/index.md >> for the site's homepage.
+The filename may be configurable some day.
+
+=head2 Custom CSS
+
+You can create a file called F<< custom.scss >> containing custom SCSS
+code to override or add to the defaults.
+
+=head2 Adding Images
+
+If you create a directory called F<images>, this will be copied to
+F<docs/assets/images/> during the build process. This should be used
+for things like background images, etc.
+
+=head2 Building the Site
+
+Running C<< make all >> will build the site.
+
+Running C<< make clean >> will remove the C<docs> directory and
+also any temporary SCSS files created during the build process.
+
+=head1 EXAMPLE
+
+Example: L<https://github.com/exportertiny/exportertiny.github.io>
+
+Generated this site: L<https://exportertiny.github.io>
 
 =head1 BUGS
 
