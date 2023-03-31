@@ -314,7 +314,7 @@ __DATA__
 		<main></main>
 		<div style="height: 150px; overflow: hidden;"><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C138.82,121.67 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgba(var(--bs-dark-rgb), 1);"></path></svg></div>
 		<footer id="bottom"></footer>
-		<div id="return-to-top"><a href="#top"><i class="fa-solid fa-circle-up"></i></div>
+		<a id="return-to-top" href="#top"><i class="fa-solid fa-circle-up"></i></a>
 		<script src="{{ $root }}assets/scripts/bootstrap.bundle.min.js"></script>
 		<script src="//kit.fontawesome.com/6d700b1a29.js" crossorigin="anonymous"></script>
 		<script src="//unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>

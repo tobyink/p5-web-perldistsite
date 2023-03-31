@@ -179,34 +179,26 @@ footer {
 
 #return-to-top {
 	@extend .text-secondary;
-	@extend .text-center;
+	font-size: 2rem;
+	text-decoration: none;
+
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.6s ease-in-out;
+
 	position: fixed;
 	bottom: 2rem;
 	right: 3rem;
-	font-size: 2rem;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity 1s ease-in-out;
 	
-	a:link, a:visited {
-		@extend .text-secondary;
-		opacity: 0.75;
-		transition: opacity 0.3s ease-in-out;
-		text-decoration: underline;
-		position: relative;
-		i {
-			position: absolute;
-			top: 0;
-			left: -0.67rem;
-			animation: bounce 1.2s infinite alternate;
-		}
-	}
-	a:hover {
-		opacity: 100%;
+	i {
+		animation: bounce 1.2s infinite alternate;
 	}
 }
 
 body.is-scrolled-deeply #return-to-top {
-	opacity: 1;
+	opacity: 0.75;
 	pointer-events: auto;
+	&:hover {
+		opacity: 1;
+	}
 }
