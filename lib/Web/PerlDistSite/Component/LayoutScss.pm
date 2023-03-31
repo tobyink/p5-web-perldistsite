@@ -24,6 +24,23 @@ body {
 	@extend .d-flex;
 	@extend .flex-column;
 	@extend .min-vh-100;
+	
+	&.at-top header {
+		box-shadow: none;
+	}
+	&.is-scrolled header {
+		box-shadow: 0px 0px 12px 0px $dark;
+	}
+}
+
+html, body {
+	scroll-snap-type: y proximity;
+}
+header, .has-sections > section {
+	scroll-snap-align: start;
+}
+footer {
+	scroll-snap-align: end;
 }
 
 header {
@@ -52,16 +69,13 @@ header {
 	}
 }
 
-body.at-top header {
-	box-shadow: none;
-}
-body.is-scrolled header {
-	box-shadow: 0px 0px 12px 0px $dark;
-}
-
 .homepage-hero {
 	@extend .bg-primary;
 	position: relative;
+	
+	&.homepage-hero-dark, &.homepage-hero-banner {
+		@extend .bg-dark;
+	}
 	
 	.homepage-hero-text {
 		position: absolute;
@@ -114,10 +128,6 @@ body.is-scrolled header {
 	}
 }
 
-.homepage-hero.homepage-hero-dark, .homepage-hero.homepage-hero-banner {
-	@extend .bg-dark;
-}
-
 .homepage-hero-banner {
 	width: 100%;
 	height: 95vh;
@@ -141,21 +151,20 @@ body.page main {
 	@extend .my-4;
 }
 
-body.homepage section {
-	@extend .py-5;
-}
-
 main {
-	.has-sections > section {
-		@extend .py-5;
-	}
-	.has-sections > section:nth-child(even) {
-		@extend .bg-light;
-		@extend .text-dark;
-	}
-	.has-sections > section:last-child {
-		@extend .bg-white;
-		@extend .text-dark;
+	.has-sections {
+		& > section {
+			@extend .py-5;
+		}
+		& > section:nth-child(even) {
+			@extend .bg-light;
+			@extend .text-dark;
+			&:last-child {
+				@extend .bg-white;
+				@extend .text-dark;
+				@extend .border-top;
+			}
+		}
 	}
 	
 	pre code {

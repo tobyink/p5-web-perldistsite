@@ -167,6 +167,9 @@ has homepage => (
 	},
 );
 
+sub css_timestamp ( $self ) {
+	$self->dist_dir->child( 'assets/styles/main.css' )->stat->mtime;
+}
 
 sub load ( $class, $filename='config.yaml' ) {
 	my $data = YAML::PP::LoadFile( $filename );
@@ -277,6 +280,7 @@ sub get_template_page ( $self, $item=undef ) {
 		my $html = <DATA>;
 		$html =~ s[\{\{\s*\$root\s*\}\}]{$self->root_url}ge;
 		$html =~ s[\{\{\s*\$codestyle\s*\}\}]{$self->codestyle}ge;
+		$html =~ s[\{\{\s*\$css_timestamp\s*\}\}]{$self->css_timestamp}ge;
 		$html;
 	};
 	
@@ -302,7 +306,7 @@ __DATA__
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title></title>
-		<link href="{{ $root }}assets/styles/main.css" rel="stylesheet">
+		<link href="{{ $root }}assets/styles/main.css?v={{ $css_timestamp }}" rel="stylesheet">
 		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/{{ $codestyle }}.min.css">
 	</head>
 	<body>
