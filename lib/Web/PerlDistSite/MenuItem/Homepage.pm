@@ -1,6 +1,6 @@
 package Web::PerlDistSite::MenuItem::Homepage;
 
-our $VERSION = '0.001004';
+our $VERSION = '0.001005';
 
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
