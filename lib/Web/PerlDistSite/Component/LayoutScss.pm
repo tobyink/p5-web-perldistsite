@@ -111,6 +111,10 @@ header {
 	width: 100%;
 	font-size: 2rem;
 	
+	opacity: 1;
+	pointer-events: auto;
+	transition: opacity 0.6s ease-in-out;
+	
 	a:link, a:visited {
 		@extend .text-white;
 		text-decoration: underline;
@@ -122,6 +126,11 @@ header {
 			animation: bounce 1.2s infinite alternate;
 		}
 	}
+}
+
+body.is-scrolled .homepage-hero-button {
+	opacity: 0;
+	pointer-events: none;
 }
 
 @keyframes bounce {

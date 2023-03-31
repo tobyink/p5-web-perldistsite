@@ -11,11 +11,13 @@
 	:runtime-requirement    [ :on "HTML::HTML5::Parser"^^:CpanId ];
 	:runtime-requirement    [ :on "HTML::HTML5::Sanity"^^:CpanId ];
 	:runtime-requirement    [ :on "HTML::HTML5::Writer"^^:CpanId ];
+	:runtime-requirement    [ :on "Lingua::EN::Titlecase"^^:CpanId ];
 	:runtime-requirement    [ :on "Module::Runtime"^^:CpanId ];
 	:runtime-requirement    [ :on "Moo"^^:CpanId ];
 	:runtime-requirement    [ :on "Moo::Role"^^:CpanId ];
 	:runtime-requirement    [ :on "Path::Tiny"^^:CpanId ];
 	:runtime-requirement    [ :on "Pod::Find"^^:CpanId ];
+	:runtime-requirement    [ :on "Pod::POM"^^:CpanId ];
 	:runtime-requirement    [ :on "Text::Markdown"^^:CpanId ];
 	:runtime-requirement    [ :on "TOBYINK::Pod::HTML"^^:CpanId ];
 	:runtime-requirement    [ :on "Type::Params"^^:CpanId ];

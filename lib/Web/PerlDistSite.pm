@@ -147,6 +147,24 @@ has codestyle => (
 	default  => 'github',
 );
 
+has pod_filter => (
+	is       => 'ro',
+	isa      => Str,
+	default  => 'NAME|BUGS|AUTHOR|THANKS|COPYRIGHT AND LICENCE|DISCLAIMER OF WARRANTIES',
+);
+
+has pod_titlecase => (
+	is       => 'ro',
+	isa      => Bool,
+	default  => true,
+);
+
+has pod_downgrade_headings => (
+	is       => 'ro',
+	isa      => Bool,
+	default  => true,
+);
+
 has menu => (
 	is      => 'ro',
 	isa      => ArrayRef->of(
