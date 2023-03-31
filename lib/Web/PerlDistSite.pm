@@ -73,7 +73,7 @@ MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
 
-our $VERSION = '0.001003';
+our $VERSION = '0.001004';
 
 use Web::PerlDistSite::MenuItem ();
 use HTML::HTML5::Parser ();

@@ -1,6 +1,6 @@
 package Web::PerlDistSite::Pod2HTML;
 
-our $VERSION = '0.001003';
+our $VERSION = '0.001004';
 
 use Moo::Role;
 use Web::PerlDistSite::Common -lexical, -all;
