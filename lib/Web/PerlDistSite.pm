@@ -318,7 +318,7 @@ __DATA__
 		<script src="//kit.fontawesome.com/6d700b1a29.js" crossorigin="anonymous"></script>
 		<script src="//unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
 		<script>
-		window.addEventListener( 'scroll', function () {
+		const classy_scroll = function () {
 			const scroll = document.documentElement.scrollTop;
 			if ( scroll > 75 ) {
 				document.body.classList.add( 'is-scrolled' );
@@ -328,8 +328,10 @@ __DATA__
 				document.body.classList.remove( 'is-scrolled' );
 				document.body.classList.add( 'at-top' );
 			}
-		} );
-		document.body.classList.add( 'at-top' );
+		};
+		classy_scroll();
+		window.addEventListener( 'scroll', classy_scroll );
+		
 		hljs.highlightAll();
 		</script>
 	</body>

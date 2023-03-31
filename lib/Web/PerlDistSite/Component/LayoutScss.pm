@@ -36,10 +36,10 @@ body {
 html, body {
 	scroll-snap-type: y proximity;
 }
-header, .has-sections > section {
+.has-sections > section {
 	scroll-snap-align: start;
 }
-footer {
+.homepage-hero, footer {
 	scroll-snap-align: end;
 }
 
@@ -125,6 +125,7 @@ header {
 		width: 100%;
 		height: 95vh;
 		height: calc(100vh - 56px);
+		height: calc(100dvh - 56px);
 	}
 }
 
