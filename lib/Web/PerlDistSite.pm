@@ -246,7 +246,7 @@ itself to divide the page into cute sections.
 
 =head2 Homepage
 
-You'll need a file called F<< _page/index.md >> for the site's homepage.
+You'll need a file called F<< _pages/index.md >> for the site's homepage.
 The filename may be configurable some day.
 
 =head2 Custom CSS
