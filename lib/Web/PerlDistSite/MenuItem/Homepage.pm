@@ -9,6 +9,36 @@ use Data::Section -setup;
 
 extends 'Web::PerlDistSite::MenuItem::MarkdownFile';
 
+has 'animation' => (
+	is       => 'ro',
+	isa      => Enum[ qw/ waves1 waves2 swirl1 attract1 / ],
+	predicate => true,
+);
+
+has 'hero_options' => (
+	is       => 'ro',
+	isa      => HashRef,
+	default  => sub { {} },
+);
+
+has 'banner' => (
+	is       => 'ro',
+	isa      => Str,
+	predicate => true,
+);
+
+has 'banner_fixation' => (
+	is       => 'ro',
+	isa      => Str,
+	default  => 'fixed',
+);
+
+has [ 'banner_position_x', 'banner_position_y' ] => (
+	is       => 'ro',
+	isa      => Str,
+	default  => 'center',
+);
+
 has '+source' => (
 	is       => 'ro',
 	default  => '_pages/index.md',
@@ -34,11 +64,11 @@ sub page_title ( $self ) {
 
 sub extra_top ( $self ) {
 	my @extra;
-	if ( my $animation = $self->project->homepage->{animation} ) {
-		my $method = "compile_animation_$animation";
+	if ( $self->has_animation ) {
+		my $method = "compile_animation_" . $self->animation;
 		push @extra, $self->$method;
 	}
-	elsif ( $self->project->homepage->{banner} ) {
+	elsif ( $self->has_banner ) {
 		push @extra, $self->compile_banner();
 	}
 	return @extra;
@@ -51,10 +81,11 @@ sub compile_banner ( $self ) {
 		{
 			title     => $self->project->name,
 			abstract  => $self->project->abstract_html,
-			banner    => $self->project->homepage->{banner},
-			fixation  => $self->project->homepage->{banner_fixation}   || 'fixed',
-			pos_x     => $self->project->homepage->{banner_position_x} || 'center',
-			pos_y     => $self->project->homepage->{banner_position_y} || 'center',
+			banner    => $self->banner,
+			fixation  => $self->banner_fixation,
+			pos_x     => $self->banner_position_x,
+			pos_y     => $self->banner_position_y,
+			$self->hero_options->%*,
 		}
 	);
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
@@ -70,6 +101,7 @@ sub compile_animation_waves1 ( $self ) {
 			colour2   => $colour->darken('20%'),
 			title     => $self->project->name,
 			abstract  => $self->project->abstract_html,
+			$self->hero_options->%*,
 		}
 	);
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
@@ -88,6 +120,7 @@ sub compile_animation_waves2 ( $self ) {
 			colour5   => $colour,
 			title     => $self->project->name,
 			abstract  => $self->project->abstract_html,
+			$self->hero_options->%*,
 		}
 	);
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
@@ -105,6 +138,7 @@ sub compile_animation_swirl1 ( $self ) {
 			colour3   => $colour2,
 			title     => $self->project->name,
 			abstract  => $self->project->abstract_html,
+			$self->hero_options->%*,
 		}
 	);
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );
@@ -119,6 +153,7 @@ sub compile_animation_attract1 ( $self ) {
 			colour1   => $colour1,
 			title     => $self->project->name,
 			abstract  => $self->project->abstract_html,
+			$self->hero_options->%*,
 		}
 	);
 	HTML::HTML5::Parser->new->parse_balanced_chunk( $code );

@@ -166,6 +166,15 @@ the URL of a static image to use instead of an animation.
 "banner_position_x" can be "left", "center", or "right". "banner_position_y"
 can be "top", "center", or "bottom". These each default to "center".
 
+"hero_options" is I<itself> a hashref and allows various parts of the
+banner/animation to be overridden. In particular, "title" and "abstract".
+
+  homepage:
+    animation: waves1
+    hero_options:
+      title: "Blah"
+      abstract: "Blah blah blah"
+
 In the future, more homepage options may be available.
 
 =item C<< dist_dir >>
@@ -246,7 +255,7 @@ itself to divide the page into cute sections.
 
 =head2 Homepage
 
-You'll need a file called F<< _page/index.md >> for the site's homepage.
+You'll need a file called F<< _pages/index.md >> for the site's homepage.
 The filename may be configurable some day.
 
 =head2 Custom CSS
@@ -406,9 +415,7 @@ has homepage => (
 	is       => 'ro',
 	isa      => HashRef,
 	default  => sub ( $s ) {
-		return {
-			animation => 'waves1',
-		}
+		return { animation => 'waves1' };
 	},
 );
 
@@ -515,7 +522,10 @@ sub write_variables_scss ( $self ) {
 
 sub write_homepage ( $self ) {
 	require Web::PerlDistSite::MenuItem::Homepage;
-	my $page = Web::PerlDistSite::MenuItem::Homepage->new( project => $self );
+	my $page = Web::PerlDistSite::MenuItem::Homepage->new(
+		$self->homepage->%*,
+		project => $self,
+	);
 	$page->write_pages;
 }
 
