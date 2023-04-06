@@ -29,13 +29,30 @@ has pod => (
 	isa      => Str,
 );
 
+has raw_content => (
+	is       => 'lazy',
+	isa      => Str,
+	builder  => true,
+);
+
 sub body_class {
 	return 'page from-pod';
 }
 
-sub raw_content ( $self ) {
-	my $where = pod_where( { -inc => true }, $self->pod );
-	return path( $where )->slurp_utf8;
+sub _build_raw_content ( $self ) {
+	
+	my $local = pod_where( { -inc => true }, $self->pod );
+	return path( $local )->slurp_utf8 if $local;
+	
+	require HTTP::Tiny;
+	state $ua = HTTP::Tiny->new;
+	my $response = $ua->get( sprintf(
+		'https://fastapi.metacpan.org/v1/pod/%s?content-type=text/x-pod',
+		$self->pod,
+	) );
+	return $response->{content} if $response->{success};
+	
+	die sprintf( "pod not found: %s\n", $self->pod );
 }
 
 sub write_page ( $self ) {
