@@ -1,6 +1,6 @@
 package Web::PerlDistSite::Common;
 
-our $VERSION = '0.001006';
+our $VERSION = '0.001007';
 
 use v5.26;
 use Type::Params qw( -sigs );
