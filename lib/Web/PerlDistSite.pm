@@ -23,78 +23,15 @@ You will need B<make>.
 
 =head2 Setup
 
-Create a directory and put this F<Makefile> in it:
-
-  .PHONY: all
-  all : styles scripts images pages
-  
-  .PHONY: clean
-  clean :
-    rm -fr _build docs
-  
-  .PHONY: install
-  install :
-    npm install
-    cpanm Web::PerlDistSite
-  
-  .PHONY: images
-  images :
-    mkdir -p docs/assets/
-    cp -r images docs/assets/
-  
-  .PHONY: styles
-  styles : docs/assets/styles/main.css
-  
-  .PHONY: scripts
-  scripts : docs/assets/scripts/bootstrap.bundle.min.js docs/assets/scripts/bootstrap.bundle.min.js.map
-  
-  .PHONY: pages
-  pages :
-    mkdir -p docs
-    perl -Ilib -MWeb::PerlDistSite::Compile -e write_pages
-  
-  _build/main.scss :
-    perl -Ilib -MWeb::PerlDistSite::Compile -e write_main_scss
-  
-  _build/layout.scss :
-    perl -Ilib -MWeb::PerlDistSite::Compile -e write_layout_scss
-  
-  _build/variables.scss : config.yaml
-    perl -Ilib -MWeb::PerlDistSite::Compile -e write_variables_scss
-  
-  custom.scss :
-    touch -a custom.scss
-  
-  docs/assets/styles/main.css : _build/main.scss _build/variables.scss _build/layout.scss custom.scss
-    mkdir -p docs/assets/styles
-    node node_modules/sass/sass.js --style=compressed _build/main.scss:docs/assets/styles/main.css
-  
-  docs/assets/scripts/bootstrap.bundle.min.js :
-    mkdir -p docs/assets/scripts
-    cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js docs/assets/scripts/bootstrap.bundle.min.js
-  
-  docs/assets/scripts/bootstrap.bundle.min.js.map :
-    mkdir -p docs/assets/scripts
-    cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map docs/assets/scripts/bootstrap.bundle.min.js.map
-
-And this F<project.json>:
-
-  {
-    "dependencies": {
-      "@popperjs/core": "^2.11.7",
-      "bootstrap": "^5.2.3",
-      "sass": "^1.60.0"
-    }
-  }
-
-Now run C<< make install >> and the rest of the dependencies will be
-installed.
+Create a directory and copy the example F<Makefile> and F<project.json>
+files from this distribution into it. Then run C<< make install >> to
+install additional Nodejs and Perl dependencies.
 
 =head2 Site Configuration
 
-Configuration should be via a file F<config.yaml>. This is a YAML file
-containing a hash with the following keys. Each key is optional, unless
-noted as required.
+Configuration is via a file F<config.yaml>. This is a YAML file containing
+a hash with the following keys. Each key is optional, unless noted as required.
+An example F<config.yaml> is included in this distribution.
 
 =over
 
@@ -211,7 +148,7 @@ Converts pod "=head1" to C<< <h2> >> tags in HTML, etc.
 =head2 Menu Configuration
 
 The menu can be configured under the C<menu> key of F<config.yaml>, or in
-F<menu.yaml>. This is a list of menu items. For example:
+a separate file F<menu.yaml>. This is a list of menu items. For example:
 
   - name: installation
     title: Installation
