@@ -128,7 +128,7 @@ A short plain-text copyright statement for the website footers.
 
 =item C<< github >>
 
-Link to a github repo for the site. Expected to be of the form
+Link to a GitHub repo for the site. Expected to be of the form
 "https://github.com/username/reponame".
 
 =item C<< issues >>
@@ -436,7 +436,7 @@ sub footer ( $self ) {
 	if ( $self->github ) {
 		push @sections, sprintf(
 			'<h2>Contributing</h2>
-			<p>%s is an open source project <a href="%s">hosted on Github</a> —
+			<p>%s is an open source project <a href="%s">hosted on GitHub</a> —
 			open an issue if you have an idea or find a bug.</p>',
 			esc_html( $self->name ),
 			esc_html( $self->github ),
@@ -444,7 +444,7 @@ sub footer ( $self ) {
 		if ( $self->github =~ m{^https://github.com/(.+)$} ) {
 			my $path = $1;
 			$sections[-1] .= sprintf(
-				'<p><img alt="GitHub Repo stars"
+				'<p><img alt="GitHub repo stars"
 				src="https://img.shields.io/github/stars/%s?style=social"></p>',
 				$path,
 			);
