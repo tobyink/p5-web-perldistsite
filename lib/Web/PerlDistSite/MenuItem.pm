@@ -1,7 +1,7 @@
 package Web::PerlDistSite::MenuItem;
 use utf8;
 
-our $VERSION = '0.001007';
+our $VERSION = '0.001008';
 
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
