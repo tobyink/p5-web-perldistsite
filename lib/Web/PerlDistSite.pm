@@ -155,7 +155,7 @@ Hashref of options for the homepage (index.html). May contain keys
 "animation", "banner", "banner_fixation", "banner_position_x", and
 "banner_position_y".
 
-The "animation" may be "waves1", "waves2", "swirl1", or "attract1".
+The "animation" may be "waves1", "waves2", "swirl1", "attract1", or "circles1".
 Each of these will create a pretty animation on the homepage. Some
 day I'll add support for more animations.
 
