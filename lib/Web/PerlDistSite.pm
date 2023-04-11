@@ -234,6 +234,28 @@ Example: L<https://github.com/exportertiny/exportertiny.github.io>
 
 Generated this site: L<https://exportertiny.github.io>
 
+=head2 More Examples
+
+=over
+
+=item *
+
+L<https://typetiny.toby.ink/>
+
+=item *
+
+L<https://story-interact.xlc.pl/>
+
+=item *
+
+L<https://ology.github.io/midi-drummer-tiny-tutorial/>
+
+=item *
+
+L<https://ology.github.io/music-duration-partition-tutorial/>
+
+=back
+
 =head1 BUGS
 
 Please report any bugs to
