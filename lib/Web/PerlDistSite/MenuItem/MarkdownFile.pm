@@ -16,7 +16,7 @@ sub body_class {
 sub extra_top ( $self ) {
 	HTML::HTML5::Parser->new->parse_balanced_chunk(
 		sprintf(
-			'<div class="heading container py-3"><h1 class="display-2">%s</h1></div>',
+			'<div class="heading-wrapper"><div class="heading"><h1>%s</h1></div></div>',
 			esc_html( $self->title ),
 		)
 	);

@@ -114,7 +114,25 @@ sub _build_href ( $self ) {
 	return $self->project->root_url . $self->name . '.html';
 }
 
+sub _make_safe_class ( $self, $classname ) {
+	( $classname = lc( $classname ) )
+		=~ s{\W+}{-}g;
+	return $classname;
+}
+
 sub _compile_dom ( $self, $dom ) {
+	my $body = $dom->getElementsByTagName( 'body' )->shift;
+	$body->setAttribute(
+		'class',
+		join(
+			' ',
+			grep { defined($_) && length($_) }
+				$body->getAttribute( 'class' ),
+				$self->_make_safe_class( 'pagetype-' . ref($self) ),
+				$self->_make_safe_class( 'page-' . $self->name ),
+		),
+	);
+	
 	state $p = do {
 		my $pp = XML::LibXML::PrettyPrint->new;
 		push $pp->{element}{preserves_whitespace}->@*, sub ( $node ) {

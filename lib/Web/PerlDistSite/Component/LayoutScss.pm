@@ -42,7 +42,7 @@ header {
 	
 	.nav-link, .navbar-brand {
 		@extend .text-light;
-		@extend .rounded;
+		@include border-radius($btn-border-radius);
 	}
 	.nav-link:hover {
 		background: darken($primary, 5%);
@@ -151,6 +151,16 @@ body.page main {
 	@extend .my-4;
 }
 
+.heading-wrapper {
+	.heading {
+		@extend .container;
+		@extend .py-3;
+		h1 {
+			@extend .display-2;
+		}
+	}
+}
+
 main {
 	.has-sections {
 		& > section {
@@ -168,7 +178,7 @@ main {
 	}
 	
 	pre code {
-		@extend .rounded;
+		@include border-radius($card-border-radius);
 		display: block;
 		padding: calc($spacer / 2);
 		background: lighten($light, 5%) !important;
