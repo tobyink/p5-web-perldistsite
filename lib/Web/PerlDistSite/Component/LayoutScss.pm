@@ -1,6 +1,6 @@
 package Web::PerlDistSite::Component::LayoutScss;
 
-our $VERSION = '0.001009';
+our $VERSION = '0.001010';
 
 use Moo;
 use Web::PerlDistSite::Common -lexical, -all;
