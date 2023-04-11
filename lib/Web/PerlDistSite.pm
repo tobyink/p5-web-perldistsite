@@ -23,7 +23,7 @@ You will need B<make>.
 
 =head2 Setup
 
-Create a directory and copy the example F<Makefile> and F<project.json>
+Create a directory and copy the example F<Makefile> and F<package.json>
 files from this distribution into it. Then run C<< make install >> to
 install additional Nodejs and Perl dependencies.
 
