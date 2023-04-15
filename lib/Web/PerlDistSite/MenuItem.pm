@@ -65,6 +65,19 @@ has children => (
 	default  => sub { [] },
 );
 
+has meta => (
+	init_arg => undef,
+	is       => 'lazy',
+	isa      => ArrayRef->of( HashRef ),
+	builder  => true,
+);
+
+has _meta_merge => (
+	init_arg => 'meta',
+	is       => 'ro',
+	isa      => ArrayRef->of( HashRef ),
+);
+
 sub from_hashref ( $class, $hashref ) {
 	
 	if ( exists $hashref->{divider} ) {
@@ -221,6 +234,18 @@ sub dropdown_item ( $self, $active_item ) {
 
 sub page_title ( $self ) {
 	return sprintf( '%s — %s', $self->project->name, $self->title );
+}
+
+sub _build_meta ( $self ) {
+	my @meta = @{ $self->_meta_merge // [] };
+	if ( my $title = $self->title ) {
+		push @meta, {
+			name     => 'title',
+			property => 'rdfs:label dc:title og:title',
+			content  => $title,
+		};
+	}
+	return \@meta;
 }
 
 1;

@@ -195,6 +195,21 @@ A C<children> key allows child pages to be listed. Only one level of nesting
 is supported in the navbar, but if further levels of nesting are used, these
 pages will still be built. (You'll just need to link to them manually somehow.)
 
+A C<meta> key allows you to provide metadata for a page. It's an array of
+hashrefs. Each item in the array will result in a C<< <meta content=""> >>
+or C<< <link href=""> >> tag added to the document's C<< <head> >>. For
+example:
+
+      - name: installation
+        title: How to install
+        source: _pages/installation.html
+        meta:
+          - name: description
+            content: "How to install my module."
+          - rel: related
+            href: "https://videotube.example/1234"
+            title: "Watch a screen recording of module installation"
+
 A list item like this can be used to add dividers:
 
       - divider: true
@@ -524,13 +539,23 @@ sub get_template_page ( $self, $item=undef ) {
 	
 	$dom->getElementsByTagName( 'title' )->shift->appendText( $item ? $item->page_title : $self->name );
 	
+	if ( $item ) {
+		my $head = $dom->getElementsByTagName( 'head' )->shift;
+		if ( my $meta = $item->meta ) {
+			for my $m ( @$meta ) {
+				my $tagname = exists( $m->{href} ) ? 'link' : 'meta';
+				%{ $head->addNewChild( $head->namespaceURI, $tagname ) } = %$m;
+			}
+		}
+	}
+	
 	return $dom;
 }
 
 1;
 
 __DATA__
-<html>
+<html prefix="rdfs: http://www.w3.org/2000/01/rdf-schema# dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ s: https://schema.org/ og: https://ogp.me/ns#">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
