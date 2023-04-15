@@ -69,4 +69,6 @@ sub compile_page ( $self ) {
 	return $self->_compile_dom( $dom );
 }
 
+# TODO: wrap `_build_meta` to parse frontmatter from the markdown file.
+
 1;
